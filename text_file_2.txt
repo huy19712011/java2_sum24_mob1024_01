@@ -1,0 +1,4 @@
+Products:
+Product{name=Product 1, price=11.5, quantity=10}
+Product{name=Product 2, price=22.5, quantity=20}
+Product{name=Product 3, price=33.5, quantity=30}
