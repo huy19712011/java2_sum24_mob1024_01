@@ -53,4 +53,47 @@ public class UserDao {
         return users;
 
     }
+
+    public User getUserById(int id) {
+
+        User user = new User();
+
+        DatabaseConnectionManager dcm = new DatabaseConnectionManager("test", "sa", "123456");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            connection = dcm.getConnection();
+
+            String sql = """
+                            SELECT * FROM users WHERE id=?;
+                         """;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+
+                user.setId(resultSet.getInt("id")); // lay id tu resultset => chuyen cho user
+                user.setName(resultSet.getString("name"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setEmail(resultSet.getString("email"));
+                break;
+
+            }
+
+            System.out.println("done...");
+//            return user;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+
+    }
 }
