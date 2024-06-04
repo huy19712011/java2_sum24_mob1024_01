@@ -124,4 +124,34 @@ public class UserDao {
         }
 
     }
+
+    public void addUser(User user) {
+        DatabaseConnectionManager dcm = new DatabaseConnectionManager("test", "sa", "123456");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            connection = dcm.getConnection();
+
+            String sql = """
+                            INSERT INTO users(id, name, phone, email) VALUES(?, ?, ?, ?);
+                         """;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getPhone());
+            preparedStatement.setString(4, user.getEmail());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("done...");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

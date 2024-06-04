@@ -24,4 +24,8 @@ public class UserService {
         userDao.removeUserById(id);
     }
 
+    public void addUser(User user) {
+        userDao.addUser(user);
+    }
+
 }

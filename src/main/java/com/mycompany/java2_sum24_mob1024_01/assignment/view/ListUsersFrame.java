@@ -115,6 +115,11 @@ public class ListUsersFrame extends javax.swing.JFrame {
         jLabel4.setText("Email");
 
         jButton1.setText("Save");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Clear form");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -273,6 +278,18 @@ public class ListUsersFrame extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        User user = new User();
+        user.setId(Integer.parseInt(jTextField1.getText()));
+        user.setName(jTextField2.getText());
+        user.setPhone(jTextField3.getText());
+        user.setEmail(jTextField4.getText());
+
+        userService.addUser(user);
+        loadTable(userService.getAllUsers());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
