@@ -3,6 +3,8 @@ package com.mycompany.java2_sum24_mob1024_01.assignment.view;
 import com.mycompany.java2_sum24_mob1024_01.assignment.entity.User;
 import com.mycompany.java2_sum24_mob1024_01.assignment.service.UserService;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,16 +24,9 @@ public class ListUsersFrame extends javax.swing.JFrame {
 
         userService = new UserService();
 
-        defaultTableModel = new DefaultTableModel();
-        jTable1.setModel(defaultTableModel);
+        List<User> users = userService.getAllUsers(); // lay danh sach users
 
-        // tao cot cua bang
-        defaultTableModel.addColumn("ID");
-        defaultTableModel.addColumn("Name");
-        defaultTableModel.addColumn("Phone");
-        defaultTableModel.addColumn("email");
-
-        loadTable();
+        loadTable(users);
 
 //        // tao dong
 //        List<User> users = userService.getAllUsers(); // lay danh sach users
@@ -44,12 +39,17 @@ public class ListUsersFrame extends javax.swing.JFrame {
 //                user.getEmail()
 //            });
 //        }
-
     }
 
-    private void loadTable() {
-        // tao dong
-        List<User> users = userService.getAllUsers(); // lay danh sach users
+    private void loadTable(List<User> users) {
+        defaultTableModel = new DefaultTableModel();
+        jTable1.setModel(defaultTableModel);
+
+        // tao cot cua bang
+        defaultTableModel.addColumn("ID");
+        defaultTableModel.addColumn("Name");
+        defaultTableModel.addColumn("Phone");
+        defaultTableModel.addColumn("email");
 
         for (User user : users) {
             defaultTableModel.addRow(new Object[]{
@@ -126,6 +126,11 @@ public class ListUsersFrame extends javax.swing.JFrame {
         jButton3.setText("Update");
 
         jButton4.setText("Delete");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Clear table");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -248,7 +253,26 @@ public class ListUsersFrame extends javax.swing.JFrame {
         jTextField3.setText("");
         jTextField4.setText("");
 
+
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here: Delete selected row
+        int selectedRow = jTable1.getSelectedRow();
+        int selectedId = Integer.parseInt(String.valueOf(jTable1.getValueAt(selectedRow, 0)));
+
+        userService.removeUserById(selectedId);
+
+        //defaultTableModel.setColumnCount(0);
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException ex) {
+//            ex.printStackTrace();
+//        }
+        loadTable(userService.getAllUsers());
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

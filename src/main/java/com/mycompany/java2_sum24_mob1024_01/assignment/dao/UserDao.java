@@ -96,4 +96,32 @@ public class UserDao {
         return user;
 
     }
+
+    public void removeUserById(int id) {
+        DatabaseConnectionManager dcm = new DatabaseConnectionManager("test", "sa", "123456");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            connection = dcm.getConnection();
+
+            String sql = """
+                            DELETE users WHERE id=?;
+                         """;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("done...");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

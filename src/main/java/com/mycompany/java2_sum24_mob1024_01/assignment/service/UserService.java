@@ -20,4 +20,8 @@ public class UserService {
         return userDao.getUserById(id);
     }
 
+    public void removeUserById(int id) {
+        userDao.removeUserById(id);
+    }
+
 }
