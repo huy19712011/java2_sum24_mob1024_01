@@ -154,4 +154,34 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+
+    public void updateUser(User user) {
+        DatabaseConnectionManager dcm = new DatabaseConnectionManager("test", "sa", "123456");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            connection = dcm.getConnection();
+
+            String sql = """
+                            UPDATE users SET name=?, phone=?, email=? WHERE id=?;
+                         """;
+
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(4, user.getId());
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getPhone());
+            preparedStatement.setString(3, user.getEmail());
+
+            preparedStatement.executeUpdate();
+
+            System.out.println("done...");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
